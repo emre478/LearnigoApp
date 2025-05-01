@@ -33,11 +33,13 @@ const LoginScreen = ({navigation}) => {
           </TouchableOpacity>
         </View>
 
-        <TouchableOpacity>
+        <TouchableOpacity
+        onPress={() => navigation.navigate('Email')}>
           <Text style={styles.forgotPassword}>Forgot Password</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.signUpButton}>
+        <TouchableOpacity style={styles.signUpButton}
+          onPress={() => navigation.navigate('HomeDrawer')}>
           <Text style={styles.signUpButtonText}>Sign Up</Text>
         </TouchableOpacity>
 
