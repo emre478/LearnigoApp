@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity,  Image } from 'react-native';
 import styles from './styles';
 
-const LoginScreen = () => {
+const LoginScreen = ({navigation}) => {
   const [passwordVisible, setPasswordVisible] = useState(false);
 
   return (
@@ -57,7 +57,8 @@ const LoginScreen = () => {
 
         <View style={styles.bottomTextContainer}>
           <Text>Don’t have an account? </Text>
-          <TouchableOpacity>
+          <TouchableOpacity
+          onPress={() => navigation.navigate('Register')}>
             <Text style={styles.signUpText}>Sign Up</Text>
           </TouchableOpacity>
         </View>
