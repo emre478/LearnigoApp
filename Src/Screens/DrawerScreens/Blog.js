@@ -1,12 +1,116 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React, {useEffect, useState} from 'react';
+import {
+  View,
+  Text,
+  ActivityIndicator,
+  FlatList,
+  StyleSheet,
+  Dimensions,
+} from 'react-native';
 
-export default function Blog() {
-  return (
-    <View>
-      <Text>Blog</Text>
+const {width} = Dimensions.get('window');
+
+const Blog = () => {
+  const [blogData, setBlogData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch('http://10.0.2.2:7062/api/Blogs')
+      .then(response => response.json())
+      .then(data => {
+        setBlogData(data);
+        setLoading(false);
+      })
+      .catch(error => {
+        console.error('Veri çekme hatası:', error);
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) {
+    return (
+      <ActivityIndicator size="large" color="#007bff" style={{marginTop: 40}} />
+    );
+  }
+
+  const renderItem = ({item}) => (
+    <View style={styles.card}>
+      <Text style={styles.heading}>{item.title}</Text>
+      <Text style={styles.subheading}>{item.content}</Text>
+      <Text style={styles.description}>{item.description}</Text>
     </View>
-  )
-}
+  );
 
-const styles = StyleSheet.create({})
+  return (
+    <View style={styles.fullScreenBackground}>
+      <FlatList
+        data={blogData}
+        keyExtractor={item => item.blogId.toString()}
+        renderItem={renderItem}
+        ListHeaderComponent={
+          <>
+            <Text style={styles.sectionTitle}>Popular Online Courses</Text>
+            <Text style={styles.mainTitle}>
+              The New Way To Learn Properly in With Us!
+            </Text>
+          </>
+        }
+        contentContainerStyle={styles.container}
+      />
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  fullScreenBackground: {
+    flex: 1,
+    backgroundColor: '#e6f0ff'
+  },
+  container: {
+    backgroundColor: '#e6f0ff',
+    padding: 20,
+    paddingBottom: 40,
+  },
+  sectionTitle: {
+    top: 10,
+    color: '#007bff',
+    fontSize: 14,
+    fontWeight: '500',
+    marginBottom: 5,
+  },
+  mainTitle: {
+    top: 10,
+    color: '#003366',
+    fontSize: 22,
+    fontWeight: 'bold',
+    marginBottom: 20,
+  },
+  card: {
+    backgroundColor: '#fff',
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 16,
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowRadius: 6,
+    shadowOffset: {width: 0, height: 2},
+    elevation: 3,
+  },
+  heading: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#333',
+  },
+  subheading: {
+    fontSize: 16,
+    color: '#666',
+    marginTop: 4,
+  },
+  description: {
+    fontSize: 14,
+    color: '#444',
+    marginTop: 8,
+  },
+});
+
+export default Blog;
