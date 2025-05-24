@@ -1,115 +1,105 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
-  ActivityIndicator,
-  FlatList,
+  Image,
   StyleSheet,
+  FlatList,
+  ActivityIndicator,
   Dimensions,
 } from 'react-native';
 
-const {width} = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 
 const Blog = () => {
-  const [blogData, setBlogData] = useState([]);
+  const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('http://10.0.2.2:7062/api/Blogs')
-      .then(response => response.json())
+    fetch('http://10.0.2.2:7062/api/Blogs') // ← API endpoint'ini seninle güncelleriz
+      .then(res => res.json())
       .then(data => {
-        setBlogData(data);
+        setBlogs(data);
         setLoading(false);
       })
-      .catch(error => {
-        console.error('Veri çekme hatası:', error);
+      .catch(err => {
+        console.error('Blog verisi alınamadı:', err);
         setLoading(false);
       });
   }, []);
 
-  if (loading) {
-    return (
-      <ActivityIndicator size="large" color="#007bff" style={{marginTop: 40}} />
-    );
-  }
-
-  const renderItem = ({item}) => (
+  const renderItem = ({ item }) => (
     <View style={styles.card}>
-      <Text style={styles.heading}>{item.title}</Text>
-      <Text style={styles.subheading}>{item.content}</Text>
-      <Text style={styles.description}>{item.description}</Text>
+      <Image source={{ uri: item.imageUrl }} style={styles.image} />
+      <Text style={styles.title}>{item.title}</Text>
     </View>
   );
 
+  if (loading) {
+    return <ActivityIndicator size="large" color="#007bff" style={{ marginTop: 40 }} />;
+  }
+
   return (
-    <View style={styles.fullScreenBackground}>
-      <FlatList
-        data={blogData}
-        keyExtractor={item => item.blogId.toString()}
-        renderItem={renderItem}
-        ListHeaderComponent={
-          <>
-            <Text style={styles.sectionTitle}>Popular Online Courses</Text>
-            <Text style={styles.mainTitle}>
-              The New Way To Learn Properly in With Us!
-            </Text>
-          </>
-        }
-        contentContainerStyle={styles.container}
-      />
-    </View>
+    <FlatList
+      data={blogs}
+      renderItem={renderItem}
+      keyExtractor={(item, index) => index.toString()}
+      ListHeaderComponent={
+                <View style={styles.headerRow}>
+                  <Image
+                    source={require('../../Assets/icon/book.png')}
+                    style={styles.icon}
+                  />
+                  <Text style={styles.mainTitle}>Learnigo</Text>
+                </View>
+              }
+      contentContainerStyle={styles.container}
+    />
   );
 };
 
 const styles = StyleSheet.create({
-  fullScreenBackground: {
-    flex: 1,
-    backgroundColor: '#e6f0ff'
-  },
   container: {
-    backgroundColor: '#e6f0ff',
     padding: 20,
-    paddingBottom: 40,
-  },
-  sectionTitle: {
-    top: 10,
-    color: '#007bff',
-    fontSize: 14,
-    fontWeight: '500',
-    marginBottom: 5,
-  },
-  mainTitle: {
-    top: 10,
-    color: '#003366',
-    fontSize: 22,
-    fontWeight: 'bold',
-    marginBottom: 20,
+    backgroundColor: '#f0f4f8',
+    top: 20,
   },
   card: {
     backgroundColor: '#fff',
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 16,
+    borderRadius: 14,
+    overflow: 'hidden',
+    marginBottom: 20,
     shadowColor: '#000',
-    shadowOpacity: 0.1,
-    shadowRadius: 6,
-    shadowOffset: {width: 0, height: 2},
+    shadowOpacity: 0.08,
+    shadowRadius: 8,
+    shadowOffset: { width: 0, height: 4 },
     elevation: 3,
   },
-  heading: {
+  image: {
+    width: '100%',
+    height: 180,
+  },
+  title: {
+    padding: 14,
     fontSize: 18,
     fontWeight: 'bold',
     color: '#333',
   },
-  subheading: {
-    fontSize: 16,
-    color: '#666',
-    marginTop: 4,
+  headerRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 24,
   },
-  description: {
-    fontSize: 14,
-    color: '#444',
-    marginTop: 8,
+   mainTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#003366',
+    marginLeft: 10,
+  },
+    icon: {
+    width: 40,
+    height: 40,
+    resizeMode: 'contain',
   },
 });
 

@@ -6,6 +6,7 @@ import {
   FlatList,
   StyleSheet,
   Dimensions,
+  Image,
 } from 'react-native';
 
 const {width} = Dimensions.get('window');
@@ -35,9 +36,15 @@ const About = () => {
 
   const renderItem = ({item}) => (
     <View style={styles.card}>
-      <Text style={styles.heading}>{item.item1}</Text>
-      <Text style={styles.subheading}>{item.item2}</Text>
+      <Image source={{uri: item.imageUrl1}} style={styles.image} />
       <Text style={styles.description}>{item.description}</Text>
+
+      <View style={styles.bulletGroup}>
+        <Text style={styles.bullet}>✅ {item.item1}</Text>
+        <Text style={styles.bullet}>📘 {item.item2}</Text>
+        <Text style={styles.bullet}>📜 {item.item3}</Text>
+        <Text style={styles.bullet}>🧠 {item.item4}</Text>
+      </View>
     </View>
   );
 
@@ -48,14 +55,16 @@ const About = () => {
         keyExtractor={item => item.aboutId.toString()}
         renderItem={renderItem}
         ListHeaderComponent={
-          <>
-            <Text style={styles.sectionTitle}>Popular Online Courses</Text>
-            <Text style={styles.mainTitle}>
-              The New Way To Learn Properly in With Us!
-            </Text>
-          </>
+          <View style={styles.headerRow}>
+            <Image
+              source={require('../../Assets/icon/book.png')}
+              style={styles.icon}
+            />
+            <Text style={styles.mainTitle}>Learnigo</Text>
+          </View>
         }
         contentContainerStyle={styles.container}
+        showsVerticalScrollIndicator={false}
       />
     </View>
   );
@@ -64,52 +73,60 @@ const About = () => {
 const styles = StyleSheet.create({
   fullScreenBackground: {
     flex: 1,
-    backgroundColor: '#e6f0ff'
+    backgroundColor: '#e6f0ff',
   },
   container: {
-    backgroundColor: '#e6f0ff',
-    padding: 20,
-    paddingBottom: 40,
+    top: 20,
+    padding: 24,
+    paddingBottom: 60,
   },
-  sectionTitle: {
-    top: 10,
-    color: '#007bff',
-    fontSize: 14,
-    fontWeight: '500',
-    marginBottom: 5,
+  headerRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 24,
+  },
+  icon: {
+    width: 40,
+    height: 40,
+    resizeMode: 'contain',
   },
   mainTitle: {
-    top: 10,
-    color: '#003366',
-    fontSize: 22,
+    fontSize: 24,
     fontWeight: 'bold',
-    marginBottom: 20,
+    color: '#003366',
+    marginLeft: 10,
   },
   card: {
     backgroundColor: '#fff',
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 16,
+    borderRadius: 16,
+    padding: 20,
+    marginBottom: 24,
     shadowColor: '#000',
-    shadowOpacity: 0.1,
-    shadowRadius: 6,
-    shadowOffset: {width: 0, height: 2},
+    shadowOpacity: 0.08,
+    shadowRadius: 8,
+    shadowOffset: {width: 0, height: 3},
     elevation: 3,
   },
-  heading: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#333',
-  },
-  subheading: {
-    fontSize: 16,
-    color: '#666',
-    marginTop: 4,
+  image: {
+    width: '100%',
+    height: 220,
+    resizeMode: 'cover',
+    borderRadius: 12,
+    marginBottom: 16,
   },
   description: {
-    fontSize: 14,
+    fontSize: 16,
     color: '#444',
-    marginTop: 8,
+    lineHeight: 22,
+    marginBottom: 12,
+  },
+  bulletGroup: {
+    marginTop: 10,
+  },
+  bullet: {
+    fontSize: 16,
+    color: '#333',
+    marginBottom: 6,
   },
 });
 
