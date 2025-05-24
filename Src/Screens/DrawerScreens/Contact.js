@@ -9,7 +9,6 @@ import {
   ActivityIndicator,
   Image,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
 
 const Contact = () => {
   const [contact, setContact] = useState(null);
@@ -46,7 +45,6 @@ const Contact = () => {
         </View>
 
         <View style={styles.card}>
-          {/* Harita görseli */}
           <TouchableOpacity onPress={openMap}>
             <Image
               source={require('../../Assets/image/map-preview.jpg')}
@@ -55,29 +53,22 @@ const Contact = () => {
             <Text style={styles.mapText}>📍 Haritada Göster</Text>
           </TouchableOpacity>
 
-          {/* Adres */}
           <View style={styles.row}>
-            <Icon name="location-outline" size={22} color="#555" />
-            <Text style={styles.label}>Adres: </Text>
+            <Image source={require('../../Assets/icon/location-pin.png')} style={styles.icon} />
             <Text style={styles.value}>{contact.address}</Text>
           </View>
 
-          {/* Telefon */}
           <View style={styles.row}>
-            <Icon name="call-outline" size={22} color="#555" />
-            <Text style={styles.label}>Telefon: </Text>
+            <Image source={require('../../Assets/icon/mobile.png')} style={styles.icon} />
             <Text style={styles.value}>{contact.phone}</Text>
           </View>
 
-          {/* Email */}
           <View style={styles.row}>
-            <Icon name="mail-outline" size={22} color="#555" />
-            <Text style={styles.label}>E-Posta: </Text>
+            <Image source={require('../../Assets/icon/gmail.png')} style={styles.icon} />
             <Text style={styles.value}>{contact.email}</Text>
           </View>
         </View>
 
-        {/* Alt yazı */}
         <Text style={styles.footerText}>
           📬 Bizimle iletişime geçmekten çekinmeyin. En kısa sürede dönüş sağlanacaktır.
         </Text>
@@ -132,20 +123,19 @@ const styles = StyleSheet.create({
   },
   row: {
     flexDirection: 'row',
-    flexWrap: 'wrap',
     alignItems: 'center',
-    marginBottom: 12,
+    marginBottom: 14,
   },
-  label: {
-    fontWeight: '600',
-    fontSize: 15,
-    marginLeft: 8,
-    color: '#333',
+  icon: {
+    width: 20,
+    height: 20,
+    marginRight: 8,
+    resizeMode: 'contain',
   },
   value: {
     fontSize: 15,
     color: '#444',
-    marginLeft: 4,
+    flexShrink: 1,
   },
   footerText: {
     fontSize: 14,
