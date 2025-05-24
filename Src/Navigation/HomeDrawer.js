@@ -6,6 +6,7 @@ import Courses from '../Screens/DrawerScreens/Courses';
 import Instructors from '../Screens/DrawerScreens/Instructors';
 import Blog from '../Screens/DrawerScreens/Blog';
 import Contact from '../Screens/DrawerScreens/Contact';
+import BlogDetail from '../Screens/DrawerScreens/BlogDetail';
 
 const Drawer = createDrawerNavigator();
 
@@ -18,6 +19,7 @@ export default function HomeDrawer() {
       <Drawer.Screen name="Instructors" component={Instructors} />
       <Drawer.Screen name="Blog" component={Blog} />
       <Drawer.Screen name="Contact" component={Contact} />
+      <Drawer.Screen name="BlogDetail" component={BlogDetail} options={{ drawerItemStyle: { height: 0 } }} />
     </Drawer.Navigator>
   );
 }

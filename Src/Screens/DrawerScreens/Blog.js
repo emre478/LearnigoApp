@@ -7,16 +7,19 @@ import {
   FlatList,
   ActivityIndicator,
   Dimensions,
+  TouchableOpacity,
 } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 const { width } = Dimensions.get('window');
 
 const Blog = () => {
+  const navigation = useNavigation();
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('http://10.0.2.2:7062/api/Blogs') // ← API endpoint'ini seninle güncelleriz
+    fetch('http://10.0.2.2:7062/api/Blogs')
       .then(res => res.json())
       .then(data => {
         setBlogs(data);
@@ -29,10 +32,13 @@ const Blog = () => {
   }, []);
 
   const renderItem = ({ item }) => (
-    <View style={styles.card}>
+    <TouchableOpacity
+      style={styles.card}
+      onPress={() => navigation.navigate('BlogDetail', { blog: item })}
+    >
       <Image source={{ uri: item.imageUrl }} style={styles.image} />
       <Text style={styles.title}>{item.title}</Text>
-    </View>
+    </TouchableOpacity>
   );
 
   if (loading) {
@@ -45,15 +51,16 @@ const Blog = () => {
       renderItem={renderItem}
       keyExtractor={(item, index) => index.toString()}
       ListHeaderComponent={
-                <View style={styles.headerRow}>
-                  <Image
-                    source={require('../../Assets/icon/book.png')}
-                    style={styles.icon}
-                  />
-                  <Text style={styles.mainTitle}>Learnigo</Text>
-                </View>
-              }
+        <View style={styles.headerRow}>
+          <Image
+            source={require('../../Assets/icon/book.png')}
+            style={styles.icon}
+          />
+          <Text style={styles.mainTitle}>Learnigo</Text>
+        </View>
+      }
       contentContainerStyle={styles.container}
+      showsVerticalScrollIndicator={false}
     />
   );
 };
@@ -62,7 +69,7 @@ const styles = StyleSheet.create({
   container: {
     padding: 20,
     backgroundColor: '#f0f4f8',
-    top: 20,
+    paddingBottom: 60,
   },
   card: {
     backgroundColor: '#fff',
@@ -90,13 +97,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 24,
   },
-   mainTitle: {
+  mainTitle: {
     fontSize: 24,
     fontWeight: 'bold',
     color: '#003366',
     marginLeft: 10,
   },
-    icon: {
+  icon: {
     width: 40,
     height: 40,
     resizeMode: 'contain',
