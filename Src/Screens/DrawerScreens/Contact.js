@@ -1,114 +1,156 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
-  ActivityIndicator,
-  FlatList,
   StyleSheet,
-  Dimensions,
+  ScrollView,
+  Linking,
+  TouchableOpacity,
+  ActivityIndicator,
+  Image,
 } from 'react-native';
-
-const {width} = Dimensions.get('window');
+import Icon from 'react-native-vector-icons/Ionicons';
 
 const Contact = () => {
-  const [contactData, setcontactData] = useState([]);
+  const [contact, setContact] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch('http://10.0.2.2:7062/api/Contacts')
-      .then(response => response.json())
+      .then(res => res.json())
       .then(data => {
-        setContactData(data);
+        setContact(data[0]);
         setLoading(false);
       })
-      .catch(error => {
-        console.error('Veri çekme hatası:', error);
+      .catch(err => {
+        console.error('İletişim verisi alınamadı:', err);
         setLoading(false);
       });
   }, []);
 
-  if (loading) {
-    return (
-      <ActivityIndicator size="large" color="#007bff" style={{marginTop: 40}} />
-    );
-  }
+  const openMap = () => {
+    if (contact?.mapUrl) {
+      Linking.openURL(contact.mapUrl);
+    }
+  };
 
-  const renderItem = ({item}) => (
-    <View style={styles.card}>
-      <Text style={styles.heading}>{item.title}</Text>
-      <Text style={styles.subheading}>{item.content}</Text>
-      <Text style={styles.description}>{item.description}</Text>
-    </View>
-  );
+  if (loading) {
+    return <ActivityIndicator size="large" color="#007bff" style={{ marginTop: 40 }} />;
+  }
 
   return (
     <View style={styles.fullScreenBackground}>
-      <FlatList
-        data={contactData}
-        keyExtractor={item => item.ContactId.toString()}
-        renderItem={renderItem}
-        ListHeaderComponent={
-          <>
-            <Text style={styles.sectionTitle}>Popular Online Courses</Text>
-            <Text style={styles.mainTitle}>
-              The New Way To Learn Properly in With Us!
-            </Text>
-          </>
-        }
-        contentContainerStyle={styles.container}
-      />
+      <ScrollView>
+        <View style={styles.header}>
+          <Text style={styles.headerTitle}>İletişim Bilgileri</Text>
+        </View>
+
+        <View style={styles.card}>
+          {/* Harita görseli */}
+          <TouchableOpacity onPress={openMap}>
+            <Image
+              source={require('../../Assets/image/map-preview.jpg')}
+              style={styles.mapImage}
+            />
+            <Text style={styles.mapText}>📍 Haritada Göster</Text>
+          </TouchableOpacity>
+
+          {/* Adres */}
+          <View style={styles.row}>
+            <Icon name="location-outline" size={22} color="#555" />
+            <Text style={styles.label}>Adres: </Text>
+            <Text style={styles.value}>{contact.address}</Text>
+          </View>
+
+          {/* Telefon */}
+          <View style={styles.row}>
+            <Icon name="call-outline" size={22} color="#555" />
+            <Text style={styles.label}>Telefon: </Text>
+            <Text style={styles.value}>{contact.phone}</Text>
+          </View>
+
+          {/* Email */}
+          <View style={styles.row}>
+            <Icon name="mail-outline" size={22} color="#555" />
+            <Text style={styles.label}>E-Posta: </Text>
+            <Text style={styles.value}>{contact.email}</Text>
+          </View>
+        </View>
+
+        {/* Alt yazı */}
+        <Text style={styles.footerText}>
+          📬 Bizimle iletişime geçmekten çekinmeyin. En kısa sürede dönüş sağlanacaktır.
+        </Text>
+      </ScrollView>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   fullScreenBackground: {
+    top: 20,
     flex: 1,
-    backgroundColor: '#e6f0ff'
-  },
-  container: {
     backgroundColor: '#e6f0ff',
-    padding: 20,
-    paddingBottom: 40,
+    padding: 16,
   },
-  sectionTitle: {
-    top: 10,
-    color: '#007bff',
-    fontSize: 14,
-    fontWeight: '500',
-    marginBottom: 5,
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 18,
+    borderBottomWidth: 1,
+    borderColor: '#ccc',
+    paddingBottom: 6,
   },
-  mainTitle: {
-    top: 10,
-    color: '#003366',
+  headerTitle: {
     fontSize: 22,
     fontWeight: 'bold',
-    marginBottom: 20,
+    color: '#003366',
+    marginLeft: 8,
   },
   card: {
     backgroundColor: '#fff',
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 16,
+    borderRadius: 16,
+    padding: 20,
     shadowColor: '#000',
     shadowOpacity: 0.1,
-    shadowRadius: 6,
-    shadowOffset: {width: 0, height: 2},
-    elevation: 3,
+    shadowRadius: 8,
+    shadowOffset: { width: 0, height: 4 },
+    elevation: 5,
+    marginBottom: 30,
   },
-  heading: {
-    fontSize: 18,
-    fontWeight: 'bold',
+  mapImage: {
+    width: '100%',
+    height: 180,
+    borderRadius: 10,
+    marginBottom: 10,
+  },
+  mapText: {
+    color: '#007bff',
+    marginBottom: 20,
+    fontSize: 15,
+    fontWeight: '500',
+  },
+  row: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'center',
+    marginBottom: 12,
+  },
+  label: {
+    fontWeight: '600',
+    fontSize: 15,
+    marginLeft: 8,
     color: '#333',
   },
-  subheading: {
-    fontSize: 16,
-    color: '#666',
-    marginTop: 4,
-  },
-  description: {
-    fontSize: 14,
+  value: {
+    fontSize: 15,
     color: '#444',
+    marginLeft: 4,
+  },
+  footerText: {
+    fontSize: 14,
+    color: '#555',
+    textAlign: 'center',
     marginTop: 8,
   },
 });
