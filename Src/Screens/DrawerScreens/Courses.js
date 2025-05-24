@@ -1,12 +1,99 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react';
+import {
+  View,
+  Text,
+  FlatList,
+  Image,
+  StyleSheet,
+  ActivityIndicator,
+  TouchableOpacity,
+} from 'react-native';
 
-export default function Courses() {
+const Courses = () => {
+  const [courses, setCourses] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch('http://10.0.2.2:7062/api/Courses') // API endpointi kendi projenize göre ayarlayın
+      .then(res => res.json())
+      .then(data => {
+        setCourses(data);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error('Kurs verisi alınamadı:', err);
+        setLoading(false);
+      });
+  }, []);
+
+  const renderItem = ({ item }) => (
+    <TouchableOpacity style={styles.card}>
+      <Image source={{ uri: item.imageUrl }} style={styles.image} />
+      <Text style={styles.title}>{item.courseName}</Text>
+      <Text style={styles.category}>{item.courseCategory?.name}</Text>
+      <Text style={styles.price}>{item.price} ₺</Text>
+      <Text style={styles.instructor}>
+        Eğitmen: {item.appUser?.firstName} {item.appUser?.lastName}
+      </Text>
+    </TouchableOpacity>
+  );
+
+  if (loading) {
+    return <ActivityIndicator size="large" color="#007bff" style={{ marginTop: 40 }} />;
+  }
+
   return (
-    <View>
-      <Text>Courses</Text>
-    </View>
-  )
-}
+    <FlatList
+      data={courses}
+      keyExtractor={item => item.courseId.toString()}
+      renderItem={renderItem}
+      contentContainerStyle={styles.container}
+    />
+  );
+};
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  container: {
+    padding: 20,
+    backgroundColor: '#f0f4f8',
+  },
+  card: {
+    backgroundColor: '#fff',
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 20,
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowRadius: 6,
+    shadowOffset: { width: 0, height: 3 },
+    elevation: 3,
+  },
+  image: {
+    width: '100%',
+    height: 160,
+    borderRadius: 10,
+  },
+  title: {
+    fontWeight: 'bold',
+    fontSize: 18,
+    marginVertical: 6,
+    color: '#333',
+  },
+  category: {
+    fontSize: 14,
+    color: '#666',
+    marginBottom: 4,
+  },
+  price: {
+    fontSize: 16,
+    color: '#007bff',
+    fontWeight: '600',
+  },
+  instructor: {
+    marginTop: 8,
+    fontSize: 14,
+    color: '#444',
+  },
+});
+
+export default Courses;
