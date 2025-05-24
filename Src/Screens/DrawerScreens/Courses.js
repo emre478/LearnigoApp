@@ -14,7 +14,7 @@ const Courses = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('http://10.0.2.2:7062/api/Courses') // API endpointi kendi projenize göre ayarlayın
+    fetch('http://10.0.2.2:7062/api/Courses') // API endpoint kendi projenize göre ayarlayın
       .then(res => res.json())
       .then(data => {
         setCourses(data);
@@ -43,19 +43,39 @@ const Courses = () => {
   }
 
   return (
-    <FlatList
-      data={courses}
-      keyExtractor={item => item.courseId.toString()}
-      renderItem={renderItem}
-      contentContainerStyle={styles.container}
-    />
+    <View style={styles.container}>
+      <Text style={styles.header}>Kurslar</Text>
+      <View style={styles.headerLine} />
+      <FlatList
+        data={courses}
+        keyExtractor={item => item.courseId.toString()}
+        renderItem={renderItem}
+        contentContainerStyle={{ paddingBottom: 20 }}
+      />
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
+    flex:1,
     padding: 20,
     backgroundColor: '#f0f4f8',
+  },
+  header: {
+    top: 15,
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#003366',
+  },
+  headerLine: {
+    top: 10,
+    width: 80,
+    height: 3,
+    backgroundColor: '#003366',
+    marginTop: 4,
+    marginBottom: 16,
+    borderRadius: 2,
   },
   card: {
     backgroundColor: '#fff',

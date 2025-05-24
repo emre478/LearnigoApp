@@ -51,12 +51,9 @@ const Blog = () => {
       renderItem={renderItem}
       keyExtractor={(item, index) => index.toString()}
       ListHeaderComponent={
-        <View style={styles.headerRow}>
-          <Image
-            source={require('../../Assets/icon/book.png')}
-            style={styles.icon}
-          />
-          <Text style={styles.mainTitle}>Learnigo</Text>
+        <View style={styles.headerRow}>          
+          <Text style={styles.mainTitle}>Bloglar</Text>
+          <View style={styles.headerLine} />
         </View>
       }
       contentContainerStyle={styles.container}
@@ -86,6 +83,15 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 180,
   },
+  headerLine: {
+    top: 15,
+    width: 80,
+    height: 3,
+    backgroundColor: '#003366',
+    marginTop: 4,
+    marginBottom: 16,
+    borderRadius: 2,
+  },
   title: {
     padding: 14,
     fontSize: 18,
@@ -93,15 +99,15 @@ const styles = StyleSheet.create({
     color: '#333',
   },
   headerRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: 'column',  
+    alignItems: 'flex-start', 
     marginBottom: 24,
   },
   mainTitle: {
+    top: 15,
     fontSize: 24,
     fontWeight: 'bold',
     color: '#003366',
-    marginLeft: 10,
   },
   icon: {
     width: 40,
@@ -109,5 +115,6 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
 });
+
 
 export default Blog;
