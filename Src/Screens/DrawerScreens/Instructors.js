@@ -6,15 +6,12 @@ import {
   StyleSheet,
   FlatList,
   ActivityIndicator,
-  TouchableOpacity,
   Dimensions,
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 
 const { width } = Dimensions.get('window');
 
 const Instructors = () => {
-  const navigation = useNavigation();
   const [instructors, setInstructors] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -31,27 +28,10 @@ const Instructors = () => {
       });
   }, []);
 
-  const goToCourses = (instructor) => {
-    // writerId olarak küçük harfli "writerId" kullan
-    navigation.navigate('InstructorCourses', { writerId: instructor.writerId, firstName: `${instructor.firstName} ${instructor.lastName}` });
-  };
-
-  const goToBlogs = (instructor) => {
-    navigation.navigate('InstructorBlogs', { writerId: instructor.writerId, firstName: `${instructor.firstName} ${instructor.lastName}` });
-  };
-
   const renderItem = ({ item }) => (
     <View style={styles.card}>
       <Image source={{ uri: item.imageUrl }} style={styles.image} />
       <Text style={styles.name}>{item.firstName} {item.lastName}</Text>
-      <View style={styles.buttonsContainer}>
-        <TouchableOpacity style={styles.button} onPress={() => goToCourses(item)}>
-          <Text style={styles.buttonText}>Kurslara Git</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={() => goToBlogs(item)}>
-          <Text style={styles.buttonText}>Blog Yazılarına Git</Text>
-        </TouchableOpacity>
-      </View>
     </View>
   );
 
@@ -65,11 +45,11 @@ const Instructors = () => {
       keyExtractor={item => item.writerId ? item.writerId.toString() : item.firstName + item.lastName}
       renderItem={renderItem}
       ListHeaderComponent={
-              <View style={styles.headerRow}>          
-                <Text style={styles.mainTitle}>Eğitmenlerimiz</Text>
-                <View style={styles.headerLine} />
-              </View>
-            }
+        <View style={styles.headerRow}>          
+          <Text style={styles.mainTitle}>Eğitmenlerimiz</Text>
+          <View style={styles.headerLine} />
+        </View>
+      }
       contentContainerStyle={styles.container}
     />
   );
@@ -107,25 +87,13 @@ const styles = StyleSheet.create({
     color: '#333',
     marginBottom: 12,
   },
-  buttonsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    width: '100%',
-  },
-  button: {
-    backgroundColor: '#003366',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 8,
-    marginHorizontal: 8,
-  },
   mainTitle: {
     top: 15,
     fontSize: 24,
     fontWeight: 'bold',
     color: '#003366',
   },
-   headerLine: {
+  headerLine: {
     top: 15,
     width: 165,
     height: 3,
@@ -133,10 +101,6 @@ const styles = StyleSheet.create({
     marginTop: 4,
     marginBottom: 16,
     borderRadius: 2,
-  },
-  buttonText: {
-    color: '#fff',
-    fontWeight: '600',
   },
 });
 

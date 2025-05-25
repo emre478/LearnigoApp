@@ -6,18 +6,17 @@ const BlogDetail = ({ route }) => {
   const blogDate = new Date(blog.blogDate).toLocaleDateString('tr-TR');
 
   return (
-    
     <View style={styles.fullScreenBackground}>
+      {/* Başlık bölümü buraya alındı */}
+      <View style={styles.headerRow}>
+        <Image
+          source={require('../../Assets/icon/book.png')}
+          style={styles.icon}
+        />
+        <Text style={styles.mainTitle}>Learnigo</Text>
+      </View>
+
       <ScrollView>
-        ListHeaderComponent={
-                <View style={styles.headerRow}>
-                  <Image
-                    source={require('../../Assets/icon/book.png')}
-                    style={styles.icon}
-                  />
-                  <Text style={styles.mainTitle}>Learnigo</Text>
-                </View>
-              }
         <View style={styles.card}>
           {/* Görsel */}
           <Image source={{ uri: blog.imageUrl }} style={styles.coverImage} />

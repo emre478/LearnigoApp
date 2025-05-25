@@ -8,6 +8,7 @@ import Blog from '../Screens/DrawerScreens/Blog';
 import Contact from '../Screens/DrawerScreens/Contact';
 import BlogDetail from '../Screens/DrawerScreens/BlogDetail';
 
+
 const Drawer = createDrawerNavigator();
 
 export default function HomeDrawer() {

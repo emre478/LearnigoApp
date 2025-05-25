@@ -2,8 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import styles from './styles'; 
-import About from '../DrawerScreens/About';
-import Courses from '../DrawerScreens/Courses';
+import Banner from '../DrawerScreens/Banner';
 
 export const HomeScreen = ({ navigation, openDrawer }) => {
   return (
@@ -15,7 +14,7 @@ export const HomeScreen = ({ navigation, openDrawer }) => {
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Learnigo</Text>
       </View>
-      
+      <Banner />
       <View style={styles.banner}>
         <View style={styles.bannerText}>
           <Text style={styles.label}>Popular Online Courses</Text>
