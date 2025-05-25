@@ -1,15 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
   FlatList,
   StyleSheet,
-  TouchableOpacity,
-    Image,
+  TouchableOpacity,  
+  Image,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const CourseCategories = ({ navigation }) => {
+const CourseCategories = ({navigation}) => {
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
@@ -19,15 +18,25 @@ const CourseCategories = ({ navigation }) => {
       .catch(err => console.error(err));
   }, []);
 
-  const renderItem = ({ item }) => (
-    <TouchableOpacity style={styles.card} onPress={() => alert(`Kategoriler: ${item.name}`)}>
-      <View style={styles.iconWrapper}>
-        <Image name="image-outline" size={40} color="#2e3192" />
-      </View>
-      <Text style={styles.categoryName}>{item.name}</Text>
-      <Text style={styles.categoryDescription}>{item.description}</Text>      
-    </TouchableOpacity>
-  );
+  const renderItem = ({item}) => {
+    // Kategori adına göre ikon seç
+    let iconSource;
+    if (item.name === 'Yazılım Geliştirme') {
+      iconSource = require('../../Assets/icon/code.png');
+    } else if (item.name === 'Fotoğrafçılık') {
+      iconSource = require('../../Assets/icon/picture.png');
+    } 
+
+    return (
+      <TouchableOpacity style={styles.card}>
+        <View style={styles.iconWrapper}>
+          <Image source={iconSource} style={styles.icon} />
+        </View>
+        <Text style={styles.categoryName}>{item.name}</Text>
+        <Text style={styles.categoryDescription}>{item.description}</Text>
+      </TouchableOpacity>
+    );
+  };
 
   return (
     <View style={styles.container}>
@@ -39,7 +48,7 @@ const CourseCategories = ({ navigation }) => {
         showsHorizontalScrollIndicator={false}
         keyExtractor={item => item.courseCategoryId.toString()}
         renderItem={renderItem}
-        contentContainerStyle={{ paddingVertical: 10 }}
+        contentContainerStyle={{paddingVertical: 10}}
       />
     </View>
   );
@@ -74,11 +83,15 @@ const styles = StyleSheet.create({
     shadowColor: '#000',
     shadowOpacity: 0.05,
     shadowRadius: 6,
-    shadowOffset: { width: 0, height: 4 },
+    shadowOffset: {width: 0, height: 4},
     elevation: 3,
   },
   iconWrapper: {
     marginBottom: 15,
+  },
+  icon: {
+    height: 40,
+    width: 40,
   },
   categoryName: {
     fontWeight: '700',
