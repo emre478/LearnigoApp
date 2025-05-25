@@ -31,7 +31,7 @@ const InstructorsComponent = () => {
   );
 
   if (loading) {
-    return <ActivityIndicator size="large" color="#fff" style={{ marginTop: 40 }} />;
+    return <ActivityIndicator size="large" color="#64b5f6" style={{ marginTop: 40 }} />;
   }
 
   return (
@@ -41,10 +41,10 @@ const InstructorsComponent = () => {
       <FlatList
         data={instructors}
         renderItem={renderItem}
-        keyExtractor={item => item.writerId ? item.writerId.toString() : item.firstName + item.lastName}
+        keyExtractor={item => item.writerId ? item.writerId.toString() : `${item.firstName}-${item.lastName}`}
         horizontal
         showsHorizontalScrollIndicator={false}
-        contentContainerStyle={{ paddingHorizontal: 16 }}
+        contentContainerStyle={styles.listContent}
       />
     </View>
   );
@@ -52,11 +52,10 @@ const InstructorsComponent = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: '#283593',
     paddingVertical: 20,
-    top: 20,
     borderRadius: 12,
+    marginTop: 20,
   },
   sectionTitle: {
     color: '#64b5f6',
@@ -72,14 +71,21 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 24,
   },
+  listContent: {
+    paddingHorizontal: 16,
+  },
   card: {
     backgroundColor: 'white',
     width: width * 0.35,
     marginHorizontal: 8,
-    borderRadius: 8,
+    borderRadius: 12,
     overflow: 'hidden',
     alignItems: 'center',
-    elevation: 4,
+    elevation: 5,
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowRadius: 6,
+    shadowOffset: { width: 0, height: 3 },
   },
   image: {
     width: '100%',
