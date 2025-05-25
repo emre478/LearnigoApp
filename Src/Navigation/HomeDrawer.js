@@ -14,12 +14,12 @@ const Drawer = createDrawerNavigator();
 export default function HomeDrawer() {
   return (
     <Drawer.Navigator screenOptions={{ headerShown: false }}>
-      <Drawer.Screen name="HomeMain" component={HomeScreen} />
-      <Drawer.Screen name="About" component={About} />
-      <Drawer.Screen name="Courses" component={Courses} />
-      <Drawer.Screen name="Instructors" component={Instructors} />
-      <Drawer.Screen name="Blog" component={Blog} />
-      <Drawer.Screen name="Contact" component={Contact} />
+      <Drawer.Screen name="Ana Sayfa" component={HomeScreen} />
+      <Drawer.Screen name="Hakkımızda" component={About} />
+      <Drawer.Screen name="Kurslar" component={Courses} />
+      <Drawer.Screen name="Eğitmenler" component={Instructors} />
+      <Drawer.Screen name="Bloglar" component={Blog} />
+      <Drawer.Screen name="İletişim" component={Contact} />
       <Drawer.Screen name="BlogDetail" component={BlogDetail} options={{ drawerItemStyle: { height: 0 } }} />
     </Drawer.Navigator>
   );
