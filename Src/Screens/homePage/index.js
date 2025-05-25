@@ -5,6 +5,7 @@ import styles from './styles';
 import Banner from '../DrawerScreens/Banner';
 import CourseCategories from '../DrawerScreens/CourseCategories';
 import InstructorsComponent from '../DrawerScreens/InstructorsComponent';
+import Testimonials from '../DrawerScreens/Testimonial';
 
 export const HomeScreen = ({navigation, openDrawer}) => {
   return (
@@ -13,9 +14,15 @@ export const HomeScreen = ({navigation, openDrawer}) => {
       contentContainerStyle={{paddingBottom: 40}}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.openDrawer()}>
-          <Icon name="menu" size={30} color="#000" />
+          <Image source={require("../../Assets/icon/menu.png")} style = {styles.icon1} />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Learnigo</Text>
+       <View style={styles.headerRow}>
+                  <Image
+                    source={require('../../Assets/icon/book.png')}
+                    style={styles.icon}
+                  />
+                  <Text style={styles.mainTitle}>Learnigo</Text>
+                </View>
       </View>
 
       <Banner />
@@ -23,6 +30,8 @@ export const HomeScreen = ({navigation, openDrawer}) => {
       <CourseCategories />
 
       <InstructorsComponent />
+
+      <Testimonials />
     </ScrollView>
   );
 };

@@ -41,4 +41,27 @@ export default StyleSheet.create({
     marginLeft: 10,
     borderRadius: 10,
   },
+   headerRow: {
+    top: 12,
+    left : 75,
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 24,
+  },
+   icon: {
+    width: 30,
+    height: 45,
+    resizeMode: 'contain',
+  },
+   icon1: {
+    width: 30,
+    height: 25,
+    resizeMode: 'contain',
+  },
+    mainTitle: {
+    fontSize: 30,
+    fontWeight: 'bold',
+    color: '#003366',
+    marginLeft: 10,
+  },
 });

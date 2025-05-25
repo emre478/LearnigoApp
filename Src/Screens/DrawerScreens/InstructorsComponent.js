@@ -56,6 +56,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#283593',
     paddingVertical: 20,
     top: 20,
+    borderRadius: 12,
   },
   sectionTitle: {
     color: '#64b5f6',

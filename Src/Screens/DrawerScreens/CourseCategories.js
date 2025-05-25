@@ -47,6 +47,7 @@ const CourseCategories = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
+    borderRadius: 12,
     paddingHorizontal: 20,
     paddingTop: 30,
     backgroundColor: '#fff',
