@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-const Courses = () => {
+const Courses = ({navigation}) => {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -27,7 +27,7 @@ const Courses = () => {
   }, []);
 
   const renderItem = ({ item }) => (
-    <TouchableOpacity style={styles.card}>
+    <TouchableOpacity style={styles.card} onPress={() => navigation.navigate('CourseVideos', { courseId: item.courseId })}>
       <Image source={{ uri: item.imageUrl }} style={styles.image} />
       <Text style={styles.title}>{item.courseName}</Text>
       <Text style={styles.category}>{item.courseCategory?.name}</Text>

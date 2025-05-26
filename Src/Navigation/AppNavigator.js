@@ -1,12 +1,13 @@
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {HomeScreen} from '../Screens/homePage';
 import LoginScreen from '../Screens/loginPage';
 import RegisterScreen from '../Screens/registerPage';
 import VerifyCodeScreen from '../Screens/forgotPassowdPage/codePage';
 import EmailEntryScreen from '../Screens/forgotPassowdPage/emailPage';
 import ChangePasswordScreen from '../Screens/forgotPassowdPage/changePasswordPage';
 import HomeDrawer from './HomeDrawer';
+import CourseVideos from '../Screens/CourseVideos';
+
 
 const Stack = createNativeStackNavigator();
 
@@ -22,6 +23,7 @@ export const AppNavigator = () => {
         <Stack.Screen name="VerifyCode" component={VerifyCodeScreen} />
         <Stack.Screen name="Email" component={EmailEntryScreen} />
         <Stack.Screen name="ChangePassowrd" component={ChangePasswordScreen} />
+        <Stack.Screen name="CourseVideos" component={CourseVideos} />
       </Stack.Navigator>
     </NavigationContainer>
   );
